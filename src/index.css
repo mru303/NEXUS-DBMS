@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   NEXUS design tokens — quiet, ledger-like.
+   Warm neutral greys, one blue accent for links/focus/charts, black
+   primary buttons. Light is the default; dark mirrors it with its own steps.
+------------------------------------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --c-canvas: #fafaf9;
+  --c-rail: #f5f5f4;
+  --c-surface: #ffffff;
+  --c-raised: #f5f5f4;
+  --c-hover: #f0efed;
+  --c-line: #e7e5e4;
+  --c-line-strong: #d6d3d1;
+  --c-ink: #1c1917;
+  --c-ink-2: #57534e;
+  --c-ink-3: #78716c;
+  --c-primary: #1c1917;
+  --c-primary-hover: #3a3633;
+  --c-on-primary: #ffffff;
+  --c-accent: #2b59c3;
+  --c-accent-hover: #234aa6;
+  --c-accent-text: #2b59c3;
+  --c-accent-soft: rgb(43 89 195 / 0.08);
+  --c-success: #15803d;
+  --c-success-soft: rgb(21 128 61 / 0.08);
+  --c-warning: #b45309;
+  --c-warning-soft: rgb(180 83 9 / 0.08);
+  --c-danger: #b91c1c;
+  --c-danger-soft: rgb(185 28 28 / 0.07);
+  --c-info: #2b59c3;
+  --c-info-soft: rgb(43 89 195 / 0.08);
+  --c-neutral-soft: rgb(87 83 78 / 0.07);
+  --shadow-pop: 0 8px 24px -8px rgb(28 25 23 / 0.18), 0 0 0 1px var(--c-line);
+  /* charts: one blue series + a neutral companion */
+  --viz-1: #2b59c3;
+  --viz-2: #a8a29e;
+  --viz-3: #15803d;
+  --viz-4: #2b59c3;
+  --viz-muted: #d6d3d1;
+  --viz-grid: #f0efed;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-canvas: #141413;
+  --c-rail: #181817;
+  --c-surface: #1c1c1b;
+  --c-raised: #232322;
+  --c-hover: #2a2a28;
+  --c-line: #2e2e2c;
+  --c-line-strong: #3d3d3a;
+  --c-ink: #ecebe9;
+  --c-ink-2: #b5b3ae;
+  --c-ink-3: #8f8c86;
+  --c-primary: #ecebe9;
+  --c-primary-hover: #ffffff;
+  --c-on-primary: #1c1917;
+  --c-accent: #7ea2f2;
+  --c-accent-hover: #9ab6f5;
+  --c-accent-text: #93b1f5;
+  --c-accent-soft: rgb(126 162 242 / 0.12);
+  --c-success: #6cc28a;
+  --c-success-soft: rgb(108 194 138 / 0.12);
+  --c-warning: #e0a458;
+  --c-warning-soft: rgb(224 164 88 / 0.12);
+  --c-danger: #ef8080;
+  --c-danger-soft: rgb(239 128 128 / 0.12);
+  --c-info: #7ea2f2;
+  --c-info-soft: rgb(126 162 242 / 0.12);
+  --c-neutral-soft: rgb(181 179 174 / 0.1);
+  --shadow-pop: 0 10px 28px -8px rgb(0 0 0 / 0.55), 0 0 0 1px var(--c-line-strong);
+  --viz-1: #7ea2f2;
+  --viz-2: #6b6864;
+  --viz-3: #6cc28a;
+  --viz-4: #7ea2f2;
+  --viz-muted: #4a4845;
+  --viz-grid: #262624;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-canvas: var(--c-canvas);
+  --color-rail: var(--c-rail);
+  --color-surface: var(--c-surface);
+  --color-raised: var(--c-raised);
+  --color-hover: var(--c-hover);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-ink: var(--c-ink);
+  --color-ink-2: var(--c-ink-2);
+  --color-ink-3: var(--c-ink-3);
+  --color-primary: var(--c-primary);
+  --color-primary-hover: var(--c-primary-hover);
+  --color-on-primary: var(--c-on-primary);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-text: var(--c-accent-text);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-success: var(--c-success);
+  --color-success-soft: var(--c-success-soft);
+  --color-warning: var(--c-warning);
+  --color-warning-soft: var(--c-warning-soft);
+  --color-danger: var(--c-danger);
+  --color-danger-soft: var(--c-danger-soft);
+  --color-info: var(--c-info);
+  --color-info-soft: var(--c-info-soft);
+  --color-neutral-soft: var(--c-neutral-soft);
+  --shadow-pop: var(--shadow-pop);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--c-canvas);
+    color: var(--c-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  ::selection {
+    background: var(--c-accent-soft);
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+  :root[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+  :root[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.85);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-line-strong) transparent;
+  }
+}
+
+@layer components {
+  .num {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: 8px;
+  }
+  .field {
+    width: 100%;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 6px;
+    border: 1px solid var(--c-line-strong);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    font-size: 13.5px;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+  textarea.field {
+    height: auto;
+    padding: 8px 12px;
+    resize: vertical;
+    min-height: 76px;
+  }
+  .field::placeholder {
+    color: var(--c-ink-3);
+  }
+  .field:hover {
+    border-color: var(--c-line-strong);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 2px var(--c-accent-soft);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--c-danger);
+  }
+  select.field {
+    appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c8396' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  .table-head th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--c-surface);
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--c-ink-3);
+    text-align: left;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--c-line);
+    white-space: nowrap;
+  }
+  .table-body td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--c-line);
+    vertical-align: middle;
+  }
+  .table-body tr:last-child td {
+    border-bottom: 0;
+  }
+  .row-link {
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .row-link:hover {
+    background: var(--c-hover);
+  }
+}
+
+@keyframes nx-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes nx-pop {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nx-slide {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes nx-slide-left {
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+@keyframes nx-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.anim-fade { animation: nx-fade 0.14s ease-out; }
+.anim-pop { animation: nx-pop 0.16s ease-out; }
+.anim-slide { animation: nx-slide 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.anim-slide-left { animation: nx-slide-left 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.skeleton {
+  background: linear-gradient(90deg, var(--c-raised) 0%, var(--c-hover) 50%, var(--c-raised) 100%);
+  background-size: 800px 100%;
+  animation: nx-shimmer 1.2s linear infinite;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Print: only the invoice sheet ---------- */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  :root, :root[data-theme] { color-scheme: light !important; --c-canvas: #fff; --c-surface: #fff; }
+  html, body, #root, main { background: #fff !important; color: #111 !important; }
+  .invoice-sheet { overflow: visible !important; width: 100% !important; }
+  .no-print { display: none !important; }
+  .print-block { display: block !important; }
+  .invoice-sheet > div { min-width: 0 !important; }
+  .print-root { padding: 0 !important; margin: 0 !important; max-width: none !important; }
+  .invoice-sheet {
+    box-shadow: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+}
